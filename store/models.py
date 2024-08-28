@@ -8,13 +8,14 @@ class Promotion(models.Model):
 
 class Collection(models.Model):
     title = models.CharField(max_length=255)
-    featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, related_name='+')
+    featured_product = models.ForeignKey('Product', on_delete=models.SET_NULL, null=True, related_name='+')
 
 
 class Product(models.Model):
     title = models.CharField(max_length=255)
+    slug = models.SlugField()
     description = models.TextField()
-    price = models.DecimalField(max_digits=10, decimal_places=2)
+    unit_price = models.DecimalField(max_digits=10, decimal_places=2)
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
     collection = models.ForeignKey(Collection, on_delete=models.PROTECT)
@@ -49,12 +50,13 @@ class Order(models.Model):
         (PAYMENT_STATUS_FAILED, 'Failed'),
     ]
     placed_at = models.DateTimeField(auto_now_add=True)
-    payment_status = models.CharField(max_length=1, chioces=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
+    payment_status = models.CharField(max_length=1, choices=PAYMENT_STATUS_CHOICES, default=PAYMENT_STATUS_PENDING)
     customer = models.ForeignKey(Customer, on_delete=models.PROTECT)
 
 class Address(models.Model):
     street = models.CharField(max_length=255)
     city = models.CharField(max_length=255)
+    zip_code = models.CharField(max_length=255)
     customer = models.OneToOneField(Customer, on_delete=models.CASCADE, primary_key=True)
 
 
