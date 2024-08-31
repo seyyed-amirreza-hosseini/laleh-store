@@ -9,9 +9,11 @@
         <ul>
             {% for product in products %}
             <li>
-                {{product.title}}
+                {{product.customer.first_name}}
             </li>    
             {% endfor %}
         </ul>
+
+        {{result}}
     </body>
 </html>
