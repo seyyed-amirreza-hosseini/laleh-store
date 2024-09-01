@@ -2,9 +2,6 @@ from django.contrib import admin, messages
 from django.db.models import Count
 from django.urls import reverse
 from django.utils.html import format_html, urlencode
-from django.contrib.contenttypes.admin import GenericTabularInline
-
-from tags.models import TaggedItem
 from . import models
 
 
@@ -36,14 +33,8 @@ class CollectionAdmin(admin.ModelAdmin):
         return super().get_queryset(request).annotate(products_count=Count('product'))
 
 
-class TagInline(GenericTabularInline):
-    autocomplete_fields = ['tag']
-    model = TaggedItem
-
-
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
-    inlines = [TagInline]
     autocomplete_fields = ['collection']
     prepopulated_fields = {
         'slug': ['title']
