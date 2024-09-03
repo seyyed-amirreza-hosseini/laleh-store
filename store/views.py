@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Product, Collection
+from .models import OrderItem, Product, Collection
 from .serializers import ProductSerializer, CollectionSerializer
 
 
@@ -19,7 +19,7 @@ def product_list(request):
         return Response(serializer.data, status=status.HTTP_201_CREATED)
     
 
-@api_view(['GET', 'PUT'])
+@api_view(['GET', 'PUT', 'DELETE'])
 def product_detail(request, id):
     product = get_object_or_404(Product, pk=id)
     if request.method == 'GET':
@@ -30,7 +30,13 @@ def product_detail(request, id):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data)
-    
+    elif request.method == 'DELETE':
+        if OrderItem.objects.filter(product=product).exists():
+            return Response({'error': 'Product cannot be deleted because it is associated with an order item'}, status=status.HTTP_405_METHOD_NOT_ALLOWED)
+        else:
+            product.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 @api_view()
 def collection_detail(request, pk):
