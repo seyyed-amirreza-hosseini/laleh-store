@@ -32,5 +32,11 @@ class CollectionViewSet(ModelViewSet):
 
 
 class ReviewViewSet(ModelViewSet):
-    queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.filter(product_id=self.kwargs['product_pk']).all()
+
+    def get_serializer_context(self):
+        # kwargs -> is a dictionary that contains the URL parameters2
+        return {'product_id': self.kwargs['product_pk']}
