@@ -97,10 +97,14 @@ class Cart(models.Model):
 
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.PositiveSmallIntegerField()
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(fields=['cart', 'product'], name='unique_cart_product')
+        ]
 
 class Review(models.Model):
     name = models.CharField(max_length=255)
