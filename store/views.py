@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.viewsets import ModelViewSet, GenericViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin
+from rest_framework.decorators import action
 from .models import Cart, OrderItem, Product, Collection, Review, CartItem, Customer
 from .serializers import CartSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer
 from .filters import ProductFilter
@@ -78,3 +79,15 @@ class CustomerViewSet(CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, Ge
     # We don't want to delete a customer because when we delete a user, the customer record gets deleted automatically 
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer    
+
+    @action(detail=False, methods=['GET', 'PUT'])
+    def me(self, request):
+        (customer, created) = Customer.objects.get_or_create(user_id=request.user.id)
+        if request.method == "GET":
+            serializer = CustomerSerializer(customer)
+            return Response(serializer.data)
+        elif request.method == "PUT":
+            serializer = CustomerSerializer(customer, data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+            return Response(serializer.data)
