@@ -9,7 +9,7 @@ from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelM
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from .models import Cart, Order, OrderItem, Product, Collection, Review, CartItem, Customer
-from .serializers import CartSerializer, OrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer
+from .serializers import CartSerializer, OrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderCreateSerializer
 from .filters import ProductFilter
 from .pagination import DefaultPagination
 from .permissions import IsAdminOrReadOnly
@@ -98,9 +98,16 @@ class CustomerViewSet(ModelViewSet):
 
 
 class OrderViewSet(ModelViewSet):
-    serializer_class = OrderSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_serializer_class(self):
+        if self.request.method == 'POST':
+            return OrderCreateSerializer
+        return OrderSerializer
+
+    def get_serializer_context(self):
+        return {'user': self.request.user}
+    
     def get_queryset(self):
         user = self.request.user
         if user.is_staff:
