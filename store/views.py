@@ -8,15 +8,15 @@ from rest_framework.filters import SearchFilter, OrderingFilter
 from rest_framework.mixins import ListModelMixin, CreateModelMixin, UpdateModelMixin, RetrieveModelMixin, DestroyModelMixin
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
-from .models import Cart, Order, OrderItem, Product, Collection, Review, CartItem, Customer
-from .serializers import CartSerializer, OrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderCreateSerializer, UpdateOrderSerializer
+from .models import Cart, Order, OrderItem, Product, Collection, Review, CartItem, Customer, ProductImage
+from .serializers import CartSerializer, OrderSerializer, ProductSerializer, CollectionSerializer, ReviewSerializer, CartItemSerializer, AddCartItemSerializer, UpdateCartItemSerializer, CustomerSerializer, OrderCreateSerializer, UpdateOrderSerializer, ProductImageSerializer
 from .filters import ProductFilter
 from .pagination import DefaultPagination
 from .permissions import IsAdminOrReadOnly
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.order_by('id').all()
+    queryset = Product.objects.order_by('id').prefetch_related('images').all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter 
@@ -127,3 +127,14 @@ class OrderViewSet(ModelViewSet):
         if user.is_staff:
             return Order.objects.all()
         return Order.objects.filter(customer_id=user.customer.id)
+    
+
+class ProductImageViewSet(ModelViewSet):
+    serializer_class = ProductImageSerializer
+    
+    def get_serializer_context(self):
+        return {'product_id': self.kwargs['product_pk']}
+    
+    def get_queryset(self):
+        return ProductImage.objects.filter(product_id=self.kwargs['product_pk'])
+    
