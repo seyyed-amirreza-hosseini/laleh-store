@@ -5,6 +5,7 @@ from django.db.models.functions import Concat
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.core.mail import mail_admins, send_mail, BadHeaderError, EmailMessage
+from templated_mail.mail import BaseEmailMessage
 from store.models import Product, Customer, Collection, Order, OrderItem, Cart, CartItem
 from tags.models import TaggedItem
 
@@ -157,17 +158,25 @@ def say_hello(request):
         #     message='Hello bob! Your order is ready',
         #     from_email='info@amirrezabuy.com',
         #     recipient_list=['bob@amirrezabuy.com']
-        # ) 
+        # )
+         
         # mail_admins(subject='subject', message='message', html_message='message')
-        message = EmailMessage(
-            'subject',
-            'message',
-            'from@amirreza.com',
-            ['cj@gmail.com']
-        )
-        message.attach_file('playground/static/images/jujube.jpg')
-        message.send()
         
+        # message = EmailMessage(
+        #     'subject',
+        #     'message',
+        #     'from@amirreza.com',
+        #     ['cj@gmail.com']
+        # )
+        # message.attach_file('playground/static/images/jujube.jpg')
+        # message.send()
+        
+        message = BaseEmailMessage(
+            template_name='emails/hello.html',
+            context={'name': 'Amirreza'}
+        )
+        message.send(['ryder@gta.com'])
+
     except BadHeaderError:
         pass
 
