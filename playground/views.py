@@ -4,7 +4,7 @@ from django.db.models.aggregates import Count, Sum, Avg, Max, Min
 from django.db.models.functions import Concat
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
-from django.core.mail import mail_admins, send_mail, BadHeaderError
+from django.core.mail import mail_admins, send_mail, BadHeaderError, EmailMessage
 from store.models import Product, Customer, Collection, Order, OrderItem, Cart, CartItem
 from tags.models import TaggedItem
 
@@ -158,7 +158,16 @@ def say_hello(request):
         #     from_email='info@amirrezabuy.com',
         #     recipient_list=['bob@amirrezabuy.com']
         # ) 
-        mail_admins(subject='subject', message='message', html_message='message')
+        # mail_admins(subject='subject', message='message', html_message='message')
+        message = EmailMessage(
+            'subject',
+            'message',
+            'from@amirreza.com',
+            ['cj@gmail.com']
+        )
+        message.attach_file('playground/static/images/jujube.jpg')
+        message.send()
+        
     except BadHeaderError:
         pass
 
