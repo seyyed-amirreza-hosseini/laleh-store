@@ -8,6 +8,7 @@ from django.core.mail import mail_admins, send_mail, BadHeaderError, EmailMessag
 from templated_mail.mail import BaseEmailMessage
 from store.models import Product, Customer, Collection, Order, OrderItem, Cart, CartItem
 from tags.models import TaggedItem
+from .tasks import notify_customers
 
 
 def say_hello(request):
@@ -152,7 +153,7 @@ def say_hello(request):
     #     item.save()
 
     # sending emails
-    try:
+    # try:
         # send_mail(
         #     subject='Order Foods',
         #     message='Hello bob! Your order is ready',
@@ -171,13 +172,14 @@ def say_hello(request):
         # message.attach_file('playground/static/images/jujube.jpg')
         # message.send()
         
-        message = BaseEmailMessage(
-            template_name='emails/hello.html',
-            context={'name': 'Amirreza'}
-        )
-        message.send(['ryder@gta.com'])
+    #     message = BaseEmailMessage(
+    #         template_name='emails/hello.html',
+    #         context={'name': 'Amirreza'}
+    #     )
+    #     message.send(['ryder@gta.com'])
 
-    except BadHeaderError:
-        pass
+    # except BadHeaderError:
+    #     pass
+    notify_customers.delay('Hello')
 
     return render(request, 'hello.html', {'name': 'Amirreza'})
