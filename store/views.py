@@ -16,7 +16,7 @@ from .permissions import IsAdminOrReadOnly
 
 
 class ProductViewSet(ModelViewSet):
-    queryset = Product.objects.order_by('id').prefetch_related('images').all()
+    queryset = Product.objects.order_by('id').all()
     serializer_class = ProductSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     filterset_class = ProductFilter 
