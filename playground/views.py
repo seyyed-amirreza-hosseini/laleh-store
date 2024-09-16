@@ -9,6 +9,7 @@ from templated_mail.mail import BaseEmailMessage
 from store.models import Product, Customer, Collection, Order, OrderItem, Cart, CartItem
 from tags.models import TaggedItem
 from .tasks import notify_customers
+import requests
 
 
 def say_hello(request):
@@ -180,6 +181,7 @@ def say_hello(request):
 
     # except BadHeaderError:
     #     pass
-    notify_customers.delay('Hello')
+    # notify_customers.delay('Hello')
+    requests.get('https://httpbin.org/delay/2')
 
     return render(request, 'hello.html', {'name': 'Amirreza'})
