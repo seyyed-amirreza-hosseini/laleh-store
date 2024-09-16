@@ -5,6 +5,7 @@ from django.db.models.functions import Concat
 from django.contrib.contenttypes.models import ContentType
 from django.db import transaction
 from django.core.mail import mail_admins, send_mail, BadHeaderError, EmailMessage
+from django.core.cache import cache
 from templated_mail.mail import BaseEmailMessage
 from store.models import Product, Customer, Collection, Order, OrderItem, Cart, CartItem
 from tags.models import TaggedItem
@@ -182,6 +183,10 @@ def say_hello(request):
     # except BadHeaderError:
     #     pass
     # notify_customers.delay('Hello')
-    requests.get('https://httpbin.org/delay/2')
+    key = 'httpbin_result'
+    if cache.get(key) is None:
+        response = requests.get('https://httpbin.org/delay/2')
+        data = response.json()
+        cache.set(key, data)
 
-    return render(request, 'hello.html', {'name': 'Amirreza'})
+    return render(request, 'hello.html', {'name': cache.get(key)})
