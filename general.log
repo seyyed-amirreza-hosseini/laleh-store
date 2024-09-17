@@ -4,3 +4,23 @@
 2024-09-17 13:31:00,680 (CRITICAL) - playground.views - httpbin is offline
 2024-09-17 13:31:00,717 (INFO) - playground.views - Calling httpbin
 2024-09-17 13:31:20,740 (CRITICAL) - playground.views - httpbin is offline
+2024-09-17 13:44:43,814 (INFO) - django.utils.autoreload - Watching for file changes with StatReloader
+2024-09-17 13:44:43,974 (WARNING) - silk.profiling.profiler - Cannot execute silk_profile as silk is not installed correctly.
+2024-09-17 13:45:16,441 (WARNING) - django.request - Unauthorized: /store/collections/
+2024-09-17 13:45:16,451 (WARNING) - django.request - Forbidden: /store/collections/
+2024-09-17 13:45:16,460 (WARNING) - django.request - Bad Request: /store/collections/
+2024-09-17 13:46:42,261 (INFO) - django.utils.autoreload - /mnt/d/python_projects_vscode/Laleh_Store/laleh_store/settings/common.py changed, reloading.
+2024-09-17 13:46:43,113 (INFO) - django.utils.autoreload - Watching for file changes with StatReloader
+2024-09-17 13:46:43,293 (WARNING) - silk.profiling.profiler - Cannot execute silk_profile as silk is not installed correctly.
+2024-09-17 13:46:52,462 (WARNING) - django.request - Unauthorized: /store/collections/
+2024-09-17 13:46:52,619 (WARNING) - django.request - Forbidden: /store/collections/
+2024-09-17 13:46:52,811 (WARNING) - django.request - Bad Request: /store/collections/
+2024-09-17 13:54:29,486 (WARNING) - django.request - Unauthorized: /store/collections/
+2024-09-17 13:54:29,640 (WARNING) - django.request - Forbidden: /store/collections/
+2024-09-17 13:54:29,791 (WARNING) - django.request - Bad Request: /store/collections/
+2024-09-17 13:56:06,557 (WARNING) - django.request - Unauthorized: /store/collections/
+2024-09-17 13:56:06,716 (WARNING) - django.request - Forbidden: /store/collections/
+2024-09-17 13:56:06,870 (WARNING) - django.request - Bad Request: /store/collections/
+2024-09-17 13:57:32,367 (WARNING) - django.request - Unauthorized: /store/collections/
+2024-09-17 13:57:32,524 (WARNING) - django.request - Forbidden: /store/collections/
+2024-09-17 13:57:32,673 (WARNING) - django.request - Bad Request: /store/collections/
