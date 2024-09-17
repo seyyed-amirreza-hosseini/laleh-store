@@ -14,6 +14,7 @@ from store.models import Product, Customer, Collection, Order, OrderItem, Cart, 
 from tags.models import TaggedItem
 from .tasks import notify_customers
 import requests
+import logging
 
 
 # @cache_page(5 * 60)
@@ -193,9 +194,17 @@ import requests
     # return render(request, 'hello.html', {'name': data})
 
 # class-based
+
+logger = logging.getLogger(__name__)
+
+
 class HelloView(APIView):
-    @method_decorator(cache_page(5 * 60))
     def get(self, request):
+        try:        
+            logger.info('Calling httpbin')
             response = requests.get('https://httpbin.org/delay/2')
+            logger.info('Received the response')
             data = response.json()
-            return render(request, 'hello.html', {'name': data})
+        except requests.ConnectionError:
+            logger.critical('httpbin is offline')
+        return render(request, 'hello.html', {'name': 'Amirreza'})

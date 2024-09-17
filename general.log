@@ -1,0 +1,6 @@
+2024-09-17 13:30:34,279 (INFO) - django.utils.autoreload - Watching for file changes with StatReloader
+2024-09-17 13:30:34,429 (WARNING) - silk.profiling.profiler - Cannot execute silk_profile as silk is not installed correctly.
+2024-09-17 13:30:40,656 (INFO) - playground.views - Calling httpbin
+2024-09-17 13:31:00,680 (CRITICAL) - playground.views - httpbin is offline
+2024-09-17 13:31:00,717 (INFO) - playground.views - Calling httpbin
+2024-09-17 13:31:20,740 (CRITICAL) - playground.views - httpbin is offline
