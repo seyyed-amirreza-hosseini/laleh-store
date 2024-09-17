@@ -25,7 +25,8 @@ admin.site.site_header = 'Laleh_Store Admin'
 admin.site.index_title = 'Admin'
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('', include('core.urls'),),
+    path('admin/', admin.site.urls),
     path('playground/', include('playground.urls')),
     path('store/', include('store.urls')),
     path('auth/', include('djoser.urls')),
